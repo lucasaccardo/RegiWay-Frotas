@@ -1,0 +1,10 @@
+# Funcao: configuracao do app lgpd.
+# Responsável: Pacheco.
+
+from django.apps import AppConfig
+
+
+class LgpdConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'apps.lgpd'
+    verbose_name = 'LGPD'
