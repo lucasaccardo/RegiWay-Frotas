@@ -1,2 +1,52 @@
 {# Funcao: tela de login com usuario, senha e inicio do fluxo seguro. #}
 {# Responsável: Kenzo, Kenny. #}
+
+{% extends "base.html" %}
+{% load two_factor_tags %}
+
+{% block content %}
+<div class="auth-box">
+  <h1>Entrar</h1>
+
+  {{ form.media }}
+
+  {% if wizard.steps.current == "auth" %}
+    <p>Entre com seu usuário e senha. O captcha fica aqui já no primeiro passo.</p>
+  {% elif wizard.steps.current == "token" %}
+    <p>{{ device|as_verbose_action }}</p>
+  {% elif wizard.steps.current == "backup" %}
+    <p>Se precisar, dá para usar token de backup.</p>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "two_factor/_wizard_forms.html" %}
+
+    {% if other_devices %}
+      <div style="margin-top: 16px;">
+        <p>Ou usa outro método cadastrado:</p>
+        {% for other in other_devices %}
+          <button type="submit" name="challenge_device" value="{{ other.persistent_id }}">
+            {{ other|as_action }}
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div style="margin-top: 16px;">
+      <button type="submit">Continuar</button>
+    </div>
+  </form>
+
+  {% if backup_tokens %}
+    <div style="margin-top: 20px;">
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="wizard_goto_step" value="backup">
+          Usar token de backup
+        </button>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
