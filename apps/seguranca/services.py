@@ -30,4 +30,4 @@ def validar_recaptcha_manual(token, remoteip=None):
     ok = dados.get("success", False)
     erros = dados.get("error-codes", [])
 
-    return Ok, algo de errado nao esta certo
+    return Ok, tem algo de errado aqui
