@@ -5,7 +5,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django_recaptcha.fields import ReCaptchaField
 from django_recaptcha.widgets import ReCaptchaV2Checkbox
 
-
-class LoginPassoUmForm(AuthenticationForm):
-
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+class CaptchaAuthenticationForm(AuthenticationForm):
+    captcha = ReCaptchaField(
+        widget=ReCaptchaV2Checkbox(
+            attrs={"data-theme": "light"}
+        )
+    )
