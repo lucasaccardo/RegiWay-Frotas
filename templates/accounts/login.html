@@ -4,49 +4,45 @@
 {% extends "base.html" %}
 {% load two_factor_tags %}
 
+{% extends "base.html" %}
+
 {% block content %}
-<div class="auth-box">
-  <h1>Entrar</h1>
+  <div class="container mt-4">
+    <h2>Entrar</h2>
 
-  {{ form.media }}
-
-  {% if wizard.steps.current == "auth" %}
-    <p>Entre com seu usuário e senha. O captcha fica aqui já no primeiro passo.</p>
-  {% elif wizard.steps.current == "token" %}
-    <p>{{ device|as_verbose_action }}</p>
-  {% elif wizard.steps.current == "backup" %}
-    <p>Se precisar, dá para usar token de backup.</p>
-  {% endif %}
-
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {% include "two_factor/_wizard_forms.html" %}
-
-    {% if other_devices %}
-      <div style="margin-top: 16px;">
-        <p>Ou usa outro método cadastrado:</p>
-        {% for other in other_devices %}
-          <button type="submit" name="challenge_device" value="{{ other.persistent_id }}">
-            {{ other|as_action }}
-          </button>
-        {% endfor %}
-      </div>
+    {% if wizard.steps.current == "auth" %}
+      <p>Informe usuário, senha e confirme o captcha.</p>
+    {% elif wizard.steps.current == "token" %}
+      <p>Digite o código de 6 dígitos do autenticador.</p>
+    {% elif wizard.steps.current == "backup" %}
+      <p>Use um token de backup se estiver sem o app autenticador.</p>
     {% endif %}
 
-    <div style="margin-top: 16px;">
-      <button type="submit">Continuar</button>
-    </div>
-  </form>
+    {{ wizard.form.media }}
 
-  {% if backup_tokens %}
-    <div style="margin-top: 20px;">
-      <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="wizard_goto_step" value="backup">
-          Usar token de backup
-        </button>
-      </form>
-    </div>
-  {% endif %}
-</div>
+    <form method="post">
+      {% csrf_token %}
+      {{ wizard.management_form }}
+
+      {% if wizard.form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ wizard.form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      {% for field in wizard.form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">
+        {% if wizard.steps.current == "auth" %}Continuar{% else %}Validar{% endif %}
+      </button>
+    </form>
+  </div>
 {% endblock %}
