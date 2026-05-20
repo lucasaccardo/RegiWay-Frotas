@@ -5,8 +5,10 @@
 # criptografia em repouso quando os modelos forem implementados.
 # apps/frotas/models.py
 import re
+
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -30,6 +32,9 @@ class Veiculo(models.Model):
     placa = models.CharField(max_length=8, unique=True)
     renavam = models.CharField(max_length=11, unique=True)
     chassi = models.CharField(max_length=17, unique=True)
+    ativo = models.BooleanField(default=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
 
     marca = models.CharField(max_length=80)
     modelo = models.CharField(max_length=80)
