@@ -3,32 +3,33 @@
 #
 # Campos sensiveis previstos, como placa, chassi e telefone, devem usar
 # criptografia em repouso quando os modelos forem implementados.
-# apps/frotas/models.py
-import re
 
+import re
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
 def normalizar_placa(valor):
-    texto = (valor or "").upper().strip()
-    return texto.replace("-", "").replace(" ", "")
+    """Converte para maiúsculas e remove hífen ou espaços."""
+    placa = (valor or "").upper().strip()
+    return placa.replace("-", "").replace(" ", "")
 
 
 def normalizar_renavam(valor):
+    """Remove caracteres não numéricos."""
     return re.sub(r"\D", "", valor or "")
 
 
 def normalizar_chassi(valor):
-    texto = (valor or "").upper().strip()
-    return texto.replace(" ", "")
+    """Converte para maiúsculas e remove espaços."""
+    chassi = (valor or "").upper().strip()
+    return chassi.replace(" ", "")
+
 
 
 class Veiculo(models.Model):
-    """Representa um veículo da frota."""
-
+    """Informações de um veículo da frota."""
     placa = models.CharField(max_length=8, unique=True)
     renavam = models.CharField(max_length=11, unique=True)
     chassi = models.CharField(max_length=17, unique=True)
@@ -54,8 +55,6 @@ class Veiculo(models.Model):
         on_delete=models.PROTECT,
         related_name="veiculos_criados",
     )
-    criado_em = models.DateTimeField(auto_now_add=True)
-    atualizado_em = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["placa"]
@@ -63,7 +62,7 @@ class Veiculo(models.Model):
         verbose_name_plural = "veículos"
 
     def save(self, *args, **kwargs):
-        """Padroniza os principais identificadores antes de salvar."""
+        # Padroniza identificadores principais antes de salvar.
         self.placa = normalizar_placa(self.placa)
         self.renavam = normalizar_renavam(self.renavam)
         self.chassi = normalizar_chassi(self.chassi)
@@ -71,4 +70,3 @@ class Veiculo(models.Model):
 
     def __str__(self):
         return f"{self.placa} - {self.marca} {self.modelo}"
-
