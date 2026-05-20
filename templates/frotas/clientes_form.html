@@ -1,17 +1,2 @@
 {# Funcao: formulario de cadastro e edicao de clientes. #}
 {# Responsável: Kenzo, Kenny. #}
-
-{% block content %}
-  <h1>{{ titulo }}</h1>
-
-  <p>Formulário de cadastro/edição de veículo.</p>
-
-  <form method="post">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button type="submit">Salvar</button>
-    <a href="{% url 'frotas:veiculos_list' %}">Voltar</a>
-  </form>
-{% endblock %}
