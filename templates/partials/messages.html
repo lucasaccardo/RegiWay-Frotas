@@ -1,2 +1,25 @@
-{# Funcao: exibicao centralizada de mensagens do Django. #}
-{# Responsável: Kenny, Matheus Deu pro térian. #}
+{# Exibição de Alertas e Mensagens do Django #}
+{% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+            {% if message.tags == 'success' %}
+                <i class="ph ph-check-circle" style="font-size: 1.5rem;"></i>
+            {% elif message.tags == 'error' or message.tags == 'danger' %}
+                <i class="ph ph-warning-circle" style="font-size: 1.5rem;"></i>
+            {% elif message.tags == 'warning' %}
+                <i class="ph ph-warning" style="font-size: 1.5rem;"></i>
+            {% else %}
+                <i class="ph ph-info" style="font-size: 1.5rem;"></i>
+            {% endif %}
+            
+            <span style="flex: 1;">{{ message }}</span>
+            
+            <!-- Botão opcional para fechar o alerta via JS futuramente -->
+            <button type="button" class="btn-close" style="background: transparent; border: none; cursor: pointer; color: inherit; padding: 4px;" onclick="this.parentElement.style.display='none';">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
