@@ -1,45 +1,62 @@
 # Funcao: views de cadastro, listagem, detalhe e edicao da frota.
 # Responsável: Kenzo.
 # apps/frotas/views.py
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-from frotas.forms import VeiculoForm
-from frotas.models import Veiculo
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django_otp.decorators import otp_required
+
+from .forms import VeiculoForm
+from .models import Veiculo
 
 
-class VeiculoUniquenessTests(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="joao",
-            password="senha123",
-        )
-        Veiculo.objects.create(
-            placa="ABC1234",
-            renavam="12345678901",
-            chassi="9BWZZZ377VT004251",
-            marca="Volkswagen",
-            modelo="Gol",
-            ano=2024,
-            criado_por=self.user,
+@otp_required(login_url="/contas/account/login/")
+def veiculos_list(request):
+    busca = request.GET.get("q", "").strip()
+    veiculos = Veiculo.objects.all()
+
+    if busca:
+        veiculos = veiculos.filter(
+            Q(placa__icontains=busca) |
+            Q(marca__icontains=busca) |
+            Q(modelo__icontains=busca)
         )
 
-    def test_form_mostra_erro_quando_placa_ja_existe(self):
-        form = VeiculoForm(
-            data={
-                "placa": "ABC-1234",
-                "renavam": "10987654321",
-                "chassi": "9BWZZZ377VT004252",
-                "marca": "Fiat",
-                "modelo": "Uno",
-                "ano": 2024,
-                "cor": "Branco",
-                "observacao": "",
-            }
-        )
+    contexto = {
+        "veiculos": veiculos,
+        "q": busca,
+    }
+    return render(request, "frotas/veiculos_list.html", contexto)
 
-        self.assertFalse(form.is_valid())
-        self.assertFormError(
-            form,
-            "placa",
-            "Já existe um veículo cadastrado com essa placa.",
-        )
+
+@otp_required(login_url="/contas/account/login/")
+def veiculo_novo(request):
+    form = VeiculoForm(request.POST or None, request.FILES or None)
+
+    if request.method == "POST" and form.is_valid():
+        veiculo = form.save(commit=False)
+        veiculo.criado_por = request.user
+        veiculo.save()
+        return redirect("frotas:veiculos_list")
+
+    return render(request, "frotas/veiculos_form.html", {
+        "form": form,
+        "titulo": "Novo veículo",
+    })
+
+
+@otp_required(login_url="/contas/account/login/")
+def veiculo_editar(request, pk):
+    veiculo = get_object_or_404(Veiculo, pk=pk)
+    form = VeiculoForm(request.POST or None, instance=veiculo)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("frotas:veiculos_list")
+
+    contexto = {
+        "form": form,
+        "titulo": "Editar veículo",
+        "veiculo": veiculo,
+    }
+    return render(request, "frotas/veiculos_form.html", contexto)
+
