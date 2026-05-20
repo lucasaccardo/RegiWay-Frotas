@@ -4,34 +4,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="auth-box">
-  <h1>Ativar verificação em duas etapas</h1>
+  <div class="container mt-4">
+    <h2>Configurar autenticação em duas etapas</h2>
 
-  {{ form.media }}
+    {% if wizard.steps.current == "welcome" %}
+      <p>Você vai ativar um segundo fator com app autenticador.</p>
+    {% elif wizard.steps.current == "method" %}
+      <p>Escolha o método. Para este projeto, use o gerador de tokens.</p>
+    {% elif wizard.steps.current == "generator" %}
+      <p>Abra o Google Authenticator e escaneie o QR Code.</p>
 
-  {% if wizard.steps.current == "welcome" %}
-    <p>Você vai ativar o 2FA da conta. É rapidinho.</p>
+      {% if QR_URL %}
+        <p><img src="{{ QR_URL }}" alt="QR Code do autenticador"></p>
+      {% endif %}
 
-  {% elif wizard.steps.current == "method" %}
-    <p>Escolha o método. Para o seu escopo, o ideal é app autenticador.</p>
+      {% if secret_key %}
+        <p>Se não conseguir ler o QR, use esta chave:</p>
+        <code>{{ secret_key }}</code>
+      {% endif %}
+    {% elif wizard.steps.current == "validation" %}
+      <p>Digite o código gerado no app para concluir a ativação.</p>
+    {% endif %}
 
-  {% elif wizard.steps.current == "generator" %}
-    <p>Abra o Google Authenticator e escaneie o QR code.</p>
-    <p>Se o QR não rolar, usa a chave abaixo manualmente:</p>
-    <p><code>{{ secret_key }}</code></p>
-    <p>Depois digite o código de 6 dígitos que o app gerar.</p>
+    {{ wizard.form.media }}
 
-  {% elif wizard.steps.current == "validation" %}
-    <p>Confirme o código para finalizar a ativação.</p>
-  {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      {{ wizard.management_form }}
 
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {% include "two_factor/_wizard_forms.html" %}
+      {% for field in wizard.form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
 
-    <div style="margin-top: 16px;">
-      <button type="submit">Continuar</button>
-    </div>
-  </form>
-</div>
+      <button type="submit" class="btn btn-primary">Continuar</button>
+    </form>
+  </div>
 {% endblock %}
