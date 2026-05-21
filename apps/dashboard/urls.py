@@ -1,5 +1,5 @@
 # Funcao: rotas do painel principal e telas gerenciais.
-# Responsável: Matheus Deu pro térian.
+# Responsavel: Matheus Deleuterio.
 
 from django.urls import path
 
