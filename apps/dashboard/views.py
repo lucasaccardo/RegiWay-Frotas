@@ -1,20 +1,17 @@
 # Funcao: views do painel gerencial e indicadores operacionais.
-# Responsável: Matheus Deleutério.
+# Responsavel: Matheus Deleuterio.
 
+from django.apps import apps
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
 from django.shortcuts import render
+
+from .services import montar_contexto_dashboard
 
 
 def _safe_count(model_path):
-    """
-    Tenta contar registros de um model sem quebrar a dashboard caso
-    algum app ainda esteja incompleto ou sem migração.
-    """
+    """Tenta contar registros de um model sem quebrar caso o app esteja incompleto."""
     try:
-        app_label, model_name = model_path.split(".")
-        from django.apps import apps
-
+        app_label, model_name = model_path.split(".", 1)
         model = apps.get_model(app_label, model_name)
         return model.objects.count()
     except Exception:
@@ -24,41 +21,5 @@ def _safe_count(model_path):
 @login_required
 def index(request):
     """Renderiza a tela principal do dashboard."""
-
-    indicadores = [
-        {
-            "titulo": "Veículos cadastrados",
-            "valor": _safe_count("frotas.Veiculo"),
-            "icone": "car.png",
-            "classe": "card-blue",
-        },
-        {
-            "titulo": "Sinistros registrados",
-            "valor": _safe_count("sinistros.Sinistro"),
-            "icone": "alert.png",
-            "classe": "card-orange",
-        },
-        {
-            "titulo": "Clientes ativos",
-            "valor": _safe_count("frotas.Cliente"),
-            "icone": "users.png",
-            "classe": "card-green",
-        },
-        {
-            "titulo": "Documentos",
-            "valor": _safe_count("documentos.Documento"),
-            "icone": "document.png",
-            "classe": "card-purple",
-        },
-    ]
-
-    context = {
-        "titulo_pagina": "Dashboard",
-        "subtitulo_pagina": "Visão geral do sistema RegiWay Frotas",
-        "indicadores": indicadores,
-        "alertas": [
-            "Acompanhe os sinistros pendentes e mantenha os dados da frota atualizados.",
-            "Verifique anexos, documentos e dados sensíveis antes de gerar relatórios.",
-        ],
-    }
+    context = montar_contexto_dashboard(usuario=request.user)
     return render(request, "dashboard/index.html", context)

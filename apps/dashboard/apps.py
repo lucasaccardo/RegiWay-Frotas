@@ -1,10 +1,13 @@
 # Funcao: configuracao do app dashboard.
-# Responsável: Matheus Deu pro térian.
+# Responsavel: Matheus Deleuterio.
 
 from django.apps import AppConfig
 
 
 class DashboardConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.dashboard'
-    verbose_name = 'Dashboard'
+    """Configuracao do app responsavel pela dashboard gerencial."""
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.dashboard"
+    label = "dashboard"
+    verbose_name = "Dashboard Gerencial"
