@@ -1,2 +1,53 @@
 {# Funcao: tela de aceite obrigatorio dos termos e politica de privacidade. #}
 {# Responsável: Pacheco, Kenny. #}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Aceite de Termos e Política de Privacidade</h4>
+                </div>
+                <div class="card-body">
+
+                    {% if termo %}
+                        <p class="text-muted">{{ termo.titulo }} — Versão {{ termo.versao }}</p>
+                        <hr>
+                        <div class="mt-3 mb-4 p-3 bg-light rounded" style="max-height: 300px; overflow-y: auto; white-space: pre-wrap;">
+                            {{ termo.conteudo }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            Nenhum termo vigente encontrado. Entre em contato com o administrador.
+                        </div>
+                    {% endif %}
+
+                    <p>
+                        Ao clicar em <strong>Aceitar</strong>, você confirma que leu e concorda com os
+                        termos e a política de privacidade do RegiWay Frotas, em conformidade com a
+                        <strong>Lei nº 13.709/2018 (LGPD)</strong>.
+                    </p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" {% if not termo %}disabled{% endif %}>
+                                Aceitar e Continuar
+                            </button>
+                            <a href="{% url 'lgpd:politica_privacidade' %}" class="btn btn-link" target="_blank">
+                                Ler Política Completa
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

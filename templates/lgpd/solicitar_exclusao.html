@@ -1,2 +1,22 @@
 {# Funcao: formulario de solicitacao de exclusao ou anonimizacao. #}
 {# Responsável: Lucas sureira, Pacheco, Kenny. #}
+
+# Lucas Sureira
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2 class="text-danger">Aviso de Exclusão Permanente</h2>
+    <p class="lead mt-4">
+        Tem certeza que deseja excluir sua conta e anonimizar seus dados?<br>
+        <strong>Esta ação não pode ser desfeita.</strong>
+    </p>
+    
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <a href="{% url 'lgpd:meus_dados' %}" class="btn btn-secondary me-3">Cancelar e Voltar</a>
+        <button type="submit" class="btn btn-danger">Sim, Excluir Minha Conta</button>
+    </form>
+</div>
+{% endblock %}

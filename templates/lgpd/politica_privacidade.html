@@ -1,2 +1,32 @@
 {# Funcao: exibicao da politica de privacidade vigente. #}
 {# Responsável: Pacheco, Kenny. #}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+
+            <h2>Política de Privacidade</h2>
+
+            {% if termo %}
+                <p class="text-muted">
+                    {{ termo.titulo }} — Versão {{ termo.versao }}
+                </p>
+                <hr>
+                <div class="mt-4" style="white-space: pre-wrap;">{{ termo.conteudo }}</div>
+            {% else %}
+                <div class="alert alert-warning mt-4">
+                    Nenhuma política de privacidade vigente encontrada.
+                </div>
+            {% endif %}
+
+            <div class="mt-5">
+                <a href="javascript:history.back()" class="btn btn-secondary">Voltar</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
