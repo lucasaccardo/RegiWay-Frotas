@@ -1,2 +1,29 @@
-{# Funcao: menu lateral com atalhos para os modulos. #}
-{# Responsável: Kenny, Matheus Deu pro térian. #}
+{# Menu Lateral / Sidebar #}
+<div class="app-sidebar">
+    <div class="sidebar-header">
+        <i class="ph ph-car-profile" style="color: var(--color-primary); font-size: 2rem;"></i>
+        <div class="sidebar-logo">RegiWay</div>
+    </div>
+    
+    <div class="sidebar-menu">
+        <a href="{% url 'frotas:veiculos_list' %}" class="menu-item">
+            <i class="ph ph-squares-four"></i>
+            <span>Dashboard</span>
+        </a>
+        
+        <a href="{% url 'frotas:veiculos_list' %}" class="menu-item">
+            <i class="ph ph-car"></i>
+            <span>Frotas</span>
+        </a>
+        
+        <a href="#" class="menu-item">
+            <i class="ph ph-warning-circle"></i>
+            <span>Sinistros</span>
+        </a>
+        
+        <a href="#" class="menu-item">
+            <i class="ph ph-shield-check"></i>
+            <span>LGPD e Dados</span>
+        </a>
+    </div>
+</div>

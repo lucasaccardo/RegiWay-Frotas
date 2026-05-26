@@ -1,2 +1,48 @@
-{# Funcao: barra superior de navegacao do sistema. #}
-{# Responsável: Kenny, Matheus Deu pro térian. #}
+{# Barra Superior / Navbar #}
+<div class="app-navbar">
+    <div class="navbar-left">
+        <!-- Opcional: Título da página atual via block ou variável -->
+        <h3 style="margin: 0;"></h3>
+    </div>
+    
+    <div class="navbar-right" style="display: flex; align-items: center; gap: 24px;">
+        <!-- Ícone de notificações -->
+        <a href="#" style="color: var(--text-secondary); font-size: 1.5rem;">
+            <i class="ph ph-bell"></i>
+        </a>
+
+        <!-- Perfil do usuário e menu -->
+        <div class="user-profile" style="display: flex; align-items: center; gap: 12px;">
+            <div style="text-align: right;">
+                {% if user.is_authenticated %}
+                    <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">{{ user.get_username }}</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Administrador</div>
+                {% else %}
+                    <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">Visitante</div>
+                {% endif %}
+            </div>
+            
+            <!-- Avatar genérico -->
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem;">
+                {% if user.is_authenticated %}
+                    {{ user.get_username|make_list|first|upper }}
+                {% else %}
+                    ?
+                {% endif %}
+            </div>
+            
+            {% if user.is_authenticated %}
+                <form action="{% url 'two_factor:logout' %}" method="post" style="margin: 0; margin-left: 12px;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" style="background: transparent; color: var(--color-danger); padding: 8px;">
+                        <i class="ph ph-sign-out" style="font-size: 1.25rem;"></i>
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'two_factor:login' %}" class="btn btn-primary" style="margin-left: 12px;">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
