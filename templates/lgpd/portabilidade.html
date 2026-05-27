@@ -1,2 +1,29 @@
 {# Funcao: tela de solicitacao/exportacao de portabilidade de dados. #}
 {# Responsável: Lucas sureira, Pacheco, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Portabilidade de Dados | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px;">
+    <h2 style="color: var(--text-primary); margin: 0;">Portabilidade de Dados</h2>
+    <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Faça o download das suas informações em formato estruturado.</p>
+</div>
+
+<div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); padding: 40px; max-width: 600px; text-align: center;">
+    <div style="width: 80px; height: 80px; background: rgba(99, 102, 241, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+        <i class="ph ph-file-code" style="font-size: 2.5rem; color: var(--color-primary);"></i>
+    </div>
+    
+    <h4 style="color: var(--text-primary); margin: 0 0 12px 0;">Exportação de ficheiro CSV</h4>
+    <p style="color: var(--text-secondary); margin: 0 0 32px 0; line-height: 1.6;">
+        O ficheiro gerado contém todo o seu histórico de acessos, registos inseridos e dados de perfil num formato de folha de calculo (CSV), facilitando a transferência para outros sistemas.
+    </p>
+
+    <a href="#" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; background: var(--color-primary); color: white; text-decoration: none; font-weight: 600;">
+        <i class="ph ph-download-simple" style="font-size: 1.2rem;"></i> Descarregar os Meus Dados
+    </a>
+</div>
+{% endblock %}

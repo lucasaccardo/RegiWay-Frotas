@@ -1,2 +1,55 @@
 {# Funcao: formulario de criacao e edicao de sinistro. #}
 {# Responsável: Lucas sureira, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Registrar Sinistro | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px;">
+    <h2 style="color: var(--text-primary); margin: 0;">
+        {% if object %}Atualizar Sinistro{% else %}Abertura de Sinistro{% endif %}
+    </h2>
+    <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Preencha os detalhes da ocorrência com precisão.</p>
+</div>
+
+<div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); padding: 32px; max-width: 800px;">
+    <!-- enctype="multipart/form-data" é obrigatório para anexar B.O. e Fotos -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            {% for field in form %}
+                <!-- Campos de texto longo ocupam as duas colunas -->
+                <div style="{% if field.field.widget.input_type == 'textarea' %}grid-column: span 2;{% endif %}">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-weight: 500; font-size: 0.9rem;">
+                        {{ field.label }}
+                    </label>
+                    
+                    <div class="custom-input-wrapper" style="width: 100%;">
+                        {{ field }}
+                    </div>
+                    
+                    {% if field.help_text %}
+                        <small style="color: var(--text-secondary); font-size: 0.8rem; display: block; margin-top: 4px;">{{ field.help_text }}</small>
+                    {% endif %}
+                    
+                    {% for error in field.errors %}
+                        <span style="color: var(--color-danger); font-size: 0.85rem; display: block; margin-top: 4px;"><i class="ph ph-warning-circle"></i> {{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="display: flex; gap: 16px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+            <button type="submit" class="btn-primary" style="padding: 12px 24px; border-radius: 8px; border: none; background: var(--color-danger); color: white; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <i class="ph ph-shield-warning"></i> Salvar Ocorrência
+            </button>
+            <a href="javascript:history.back()" style="padding: 12px 24px; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-primary); text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,44 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}RegiWay Frotas{% endblock %}</title>
 
-    <!-- Importando Phosphor Icons para ícones modernos -->
+    <!-- Icons  -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Importando a Folha de Estilos Principal -->
+    <!-- Folha de Estilos Principal -->
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 
-    {% block extra_media %}{% endblock %}
     {% block extra_head %}{% endblock %}
 </head>
+
 <body>
 
-    <div class="app-layout{% if not user.is_authenticated %} app-layout--guest{% endif %}">
-
-        <!-- Sidebar: visível apenas para usuários autenticados -->
-        {% if user.is_authenticated %}
-            {% include 'partials/sidebar.html' %}
-        {% endif %}
+    <div class="app-layout">
+        <!-- Sidebar do Sistema -->
+        {% include 'partials/sidebar.html' %}
 
         <div class="main-wrapper">
-            <!-- Navbar: visível apenas para usuários autenticados -->
-            {% if user.is_authenticated %}
-                {% include 'partials/navbar.html' %}
-            {% endif %}
+            {% include 'partials/navbar.html' %}
 
             <!-- Área de Conteúdo -->
-            <div class="content-area{% if not user.is_authenticated %} content-area--guest{% endif %}">
+            <div class="content-area">
                 <!-- Mensagens do Django -->
                 {% include 'partials/messages.html' %}
 
-                <!-- Bloco Principal para o conteúdo de cada página -->
-                {% block content_wrapper %}
-                    {% block content %}
-                    {% endblock %}
+                <!-- Bloco Principal -->
+                {% block content %}
                 {% endblock %}
             </div>
         </div>
@@ -49,4 +42,5 @@
 
     {% block extra_js %}{% endblock %}
 </body>
+
 </html>

@@ -1,2 +1,51 @@
 {# Funcao: exibicao do historico imutavel do sinistro. #}
 {# Responsável: Lucas sureira, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Histórico do Sinistro | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h2 style="color: var(--text-primary); margin: 0;">Histórico do Protocolo #{{ sinistro.id|default:"10024" }}</h2>
+        <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Trilha de auditoria e mudanças de status.</p>
+    </div>
+    <a href="javascript:history.back()" class="btn" style="padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <i class="ph ph-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); padding: 40px; max-width: 800px;">
+    
+    <div style="position: relative; padding-left: 24px; border-left: 2px solid var(--border-color);">
+        
+        <div style="position: relative; margin-bottom: 32px;">
+            <!-- Bolinha da Timeline -->
+            <div style="position: absolute; left: -31px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--color-warning); border: 2px solid var(--bg-surface);"></div>
+            
+            <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <h5 style="color: var(--text-primary); margin: 0;">Status alterado para: Em Análise da Seguradora</h5>
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">26/05/2026 às 16:45</span>
+                </div>
+                <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">Alterado por: Lucas sureira</p>
+            </div>
+        </div>
+
+        <div style="position: relative;">
+            <div style="position: absolute; left: -31px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--color-success); border: 2px solid var(--bg-surface);"></div>
+            
+            <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <h5 style="color: var(--text-primary); margin: 0;">Sinistro Registrado no Sistema</h5>
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">26/05/2026 às 14:30</span>
+                </div>
+                <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">Criado por: Admin (via Formulário Web)</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

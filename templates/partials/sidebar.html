@@ -6,22 +6,22 @@
     </div>
     
     <div class="sidebar-menu">
-        <a href="{% url 'frotas:veiculos_list' %}" class="menu-item">
+        <a href="{% url 'dashboard:index' %}" class="menu-item {% if request.resolver_match.app_name == 'dashboard' %}active{% endif %}">
             <i class="ph ph-squares-four"></i>
             <span>Dashboard</span>
         </a>
         
-        <a href="{% url 'frotas:veiculos_list' %}" class="menu-item">
+        <a href="{% url 'frotas:veiculos_list' %}" class="menu-item {% if request.resolver_match.app_name == 'frotas' %}active{% endif %}">
             <i class="ph ph-car"></i>
             <span>Frotas</span>
         </a>
         
-        <a href="#" class="menu-item">
+        <a href="#" class="menu-item {% if request.resolver_match.app_name == 'sinistros' %}active{% endif %}">
             <i class="ph ph-warning-circle"></i>
             <span>Sinistros</span>
         </a>
         
-        <a href="#" class="menu-item">
+        <a href="#" class="menu-item {% if request.resolver_match.app_name == 'lgpd' %}active{% endif %}">
             <i class="ph ph-shield-check"></i>
             <span>LGPD e Dados</span>
         </a>

@@ -1,2 +1,61 @@
 {# Funcao: area para consulta de dados pessoais do titular. #}
 {# Responsável: Lucas sureira, Pacheco, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Meus Dados | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px;">
+    <h2 style="color: var(--text-primary); margin: 0;">Os Meus Dados Pessoais</h2>
+    <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Transparência e controlo sobre as suas informações (Art. 18 da LGPD).</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 300px; gap: 24px;">
+    <div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); padding: 32px;">
+        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Informações de Registo</h4>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0 0 4px 0;">Nome Completo</p>
+                <p style="color: var(--text-primary); font-weight: 500; margin: 0;">{{ user.get_full_name|default:user.username }}</p>
+            </div>
+            <div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0 0 4px 0;">E-mail Vinculado</p>
+                <p style="color: var(--text-primary); font-weight: 500; margin: 0;">{{ user.email }}</p>
+            </div>
+            <div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0 0 4px 0;">Último Acesso</p>
+                <p style="color: var(--text-primary); font-weight: 500; margin: 0;">{{ user.last_login|date:"d/m/Y H:i" }}</p>
+            </div>
+            <div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0 0 4px 0;">Estado do Consentimento</p>
+                <span style="background: rgba(16, 185, 129, 0.1); color: var(--color-success); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Termos Aceites</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+        <a href="{% url 'lgpd:portabilidade' %}" style="background: var(--bg-surface); border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; text-decoration: none; display: flex; align-items: center; gap: 16px; transition: transform 0.2s;">
+            <div style="background: rgba(99, 102, 241, 0.1); color: var(--color-primary); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class="ph ph-download-simple"></i>
+            </div>
+            <div>
+                <h5 style="color: var(--text-primary); margin: 0 0 4px 0;">Portabilidade</h5>
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin: 0;">Exportar os meus dados</p>
+            </div>
+        </a>
+
+        <a href="{% url 'lgpd:solicitar_exclusao' %}" style="background: var(--bg-surface); border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; text-decoration: none; display: flex; align-items: center; gap: 16px; transition: transform 0.2s;">
+            <div style="background: rgba(239, 68, 68, 0.1); color: var(--color-danger); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class="ph ph-trash"></i>
+            </div>
+            <div>
+                <h5 style="color: var(--color-danger); margin: 0 0 4px 0;">Esquecimento</h5>
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin: 0;">Solicitar eliminação</p>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -2,26 +2,67 @@
 {# Responsável: Kenzo, Kenny. #}
 
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Veículos | RegiWay Frotas{% endblock %}
 
 {% block content %}
-  <h1>Lista de Veículos</h1>
+<div class="page-header"
+  style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h2 style="color: var(--text-primary); margin: 0;">Gestão de Frotas</h2>
+    <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Autenticação e 2FA funcionando corretamente.</p>
+  </div>
+  <a href="{% url 'frotas:veiculo_novo' %}" class="btn-primary"
+    style="padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; display: flex; align-items: center; gap: 8px; background-color: var(--color-primary);">
+    <i class="ph ph-plus"></i> Novo Veículo
+  </a>
+</div>
 
-  <p>Autenticação e 2FA funcionando corretamente.</p>
+<div
+  style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden;">
+  <div
+    style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+    <h4 style="color: var(--text-primary); margin: 0;">Lista de Veículos</h4>
+  </div>
 
-  <a href="{% url 'frotas:veiculo_novo' %}">Cadastrar novo veículo</a>
-
-  <hr>
-
-  {% if veiculos %}
-    <ul>
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="background: rgba(0,0,0,0.2);">
+        <th style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">
+          Placa</th>
+        <th style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">
+          Marca e Modelo</th>
+        <th style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">
+          Status</th>
+        <th
+          style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); text-align: right;">
+          Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if veiculos %}
       {% for veiculo in veiculos %}
-        <li>
-          {{ veiculo.placa }} - {{ veiculo.marca }} {{ veiculo.modelo }}
-          <a href="{% url 'frotas:veiculo_editar' veiculo.pk %}">Editar</a>
-        </li>
+      <tr>
+        <td style="padding: 16px 20px; color: var(--text-primary); border-bottom: 1px solid var(--border-color);">{{veiculo.placa }}</td>
+        <td style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">{{veiculo.marca }} {{ veiculo.modelo }}</td>
+        <td style="padding: 16px 20px; border-bottom: 1px solid var(--border-color);">
+          <span
+            style="background: rgba(16, 185, 129, 0.1); color: #10B981; padding: 4px 12px; border-radius: 20px;">Ativo</span>
+        </td>
+        <td style="padding: 16px 20px; border-bottom: 1px solid var(--border-color); text-align: right;">
+          <a href="{% url 'frotas:veiculo_editar' veiculo.pk %}"
+            style="color: var(--color-primary); margin-right: 8px;"><i class="ph ph-pencil-simple"></i></a>
+        </td>
+      </tr>
       {% endfor %}
-    </ul>
-  {% else %}
-    <p>Nenhum veículo cadastrado ainda.</p>
-  {% endif %}
+      {% else %}
+      <tr>
+        <td colspan="4" style="padding: 32px; text-align: center; color: var(--text-secondary);">Nenhum veículo
+          cadastrado ainda.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

@@ -1,2 +1,54 @@
 {# Funcao: listagem e filtros de clientes. #}
 {# Responsável: Kenzo, Kenny. #}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Clientes | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h2 style="color: var(--text-primary); margin: 0;">Gestão de Clientes</h2>
+        <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Faça a gestão dos clientes associados à frota.</p>
+    </div>
+    <a href="{% url 'frotas:clientes_create' %}" class="btn-primary" style="padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; display: flex; align-items: center; gap: 8px;">
+        <i class="ph ph-user-plus"></i> Novo Cliente
+    </a>
+</div>
+
+<div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden;">
+    <div style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+        <h4 style="color: var(--text-primary); margin: 0;">Lista de Clientes Registados</h4>
+        <div style="position: relative;">
+            <i class="ph ph-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+            <input type="text" placeholder="Procurar cliente..." style="padding: 8px 16px 8px 36px; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: white; min-width: 250px;">
+        </div>
+    </div>
+    
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="background: rgba(0,0,0,0.2);">
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Nome / Razão Social</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Documento (CPF/CNPJ)</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Contacto</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Estado</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color); text-align: right;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 16px 20px; color: var(--text-primary); border-bottom: 1px solid var(--border-color); font-weight: 500;">Transportes Exemplo S.A.</td>
+                <td style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">12.345.678/0001-90</td>
+                <td style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">(11) 98765-4321</td>
+                <td style="padding: 16px 20px; border-bottom: 1px solid var(--border-color);">
+                    <span style="background: rgba(16, 185, 129, 0.1); color: #10B981; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Ativo</span>
+                </td>
+                <td style="padding: 16px 20px; border-bottom: 1px solid var(--border-color); text-align: right;">
+                    <button title="Editar" style="background: transparent; border: none; color: var(--color-primary); cursor: pointer; padding: 4px;"><i class="ph ph-pencil-simple" style="font-size: 1.2rem;"></i></button>
+                    <button title="Remover" style="background: transparent; border: none; color: var(--color-danger); cursor: pointer; padding: 4px;"><i class="ph ph-trash" style="font-size: 1.2rem;"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,29 +1,26 @@
 {# Barra Superior / Navbar #}
-<div class="app-navbar">
+<div class="app-navbar" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 16px 32px; border-bottom: 1px solid var(--border-color);">
     <div class="navbar-left">
-        <!-- Opcional: Título da página atual via block ou variável -->
         <h3 style="margin: 0;"></h3>
     </div>
     
     <div class="navbar-right" style="display: flex; align-items: center; gap: 24px;">
-        <!-- Ícone de notificações -->
-        <a href="#" style="color: var(--text-secondary); font-size: 1.5rem;">
+        <a href="#" style="color: var(--text-secondary); font-size: 1.5rem; display: flex; align-items: center;">
             <i class="ph ph-bell"></i>
         </a>
 
-        <!-- Perfil do usuário e menu -->
         <div class="user-profile" style="display: flex; align-items: center; gap: 12px;">
-            <div style="text-align: right;">
+            
+            <div class="user-profile-info" style="text-align: right;">
                 {% if user.is_authenticated %}
-                    <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">{{ user.get_username }}</div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Administrador</div>
+                    <div class="user-name" style="color: var(--text-primary); font-weight: bold; line-height: 1.2;">{{ user.get_username }}</div>
+                    <div class="user-role" style="color: var(--text-secondary); font-size: 0.8rem;">Administrador</div>
                 {% else %}
-                    <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">Visitante</div>
+                    <div class="user-name" style="color: var(--text-primary); font-weight: bold;">Visitante</div>
                 {% endif %}
             </div>
             
-            <!-- Avatar genérico -->
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem;">
+            <div class="avatar-generic" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(99, 102, 241, 0.2); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">
                 {% if user.is_authenticated %}
                     {{ user.get_username|make_list|first|upper }}
                 {% else %}
@@ -32,10 +29,10 @@
             </div>
             
             {% if user.is_authenticated %}
-                <form action="{% url 'two_factor:logout' %}" method="post" style="margin: 0; margin-left: 12px;">
+                <form action="{% url 'two_factor:logout' %}" method="post" style="margin: 0; display: flex; align-items: center;">
                     {% csrf_token %}
-                    <button type="submit" class="btn" style="background: transparent; color: var(--color-danger); padding: 8px;">
-                        <i class="ph ph-sign-out" style="font-size: 1.25rem;"></i>
+                    <button type="submit" class="btn-icon-danger" style="background: transparent; border: none; color: var(--color-danger); cursor: pointer; padding: 4px; display: flex; align-items: center;">
+                        <i class="ph ph-sign-out" style="font-size: 1.5rem;"></i>
                     </button>
                 </form>
             {% else %}

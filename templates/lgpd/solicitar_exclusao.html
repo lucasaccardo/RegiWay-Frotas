@@ -1,2 +1,47 @@
 {# Funcao: formulario de solicitacao de exclusao ou anonimizacao. #}
 {# Responsável: Lucas sureira, Pacheco, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Direito ao Esquecimento | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px;">
+    <h2 style="color: var(--color-danger); margin: 0;">Solicitar Eliminação de Dados</h2>
+    <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Este processo é irreversível e resultará na perda de acesso ao sistema.</p>
+</div>
+
+<div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--color-danger); padding: 32px; max-width: 600px; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--color-danger);"></div>
+    
+    <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+        <i class="ph ph-warning-octagon" style="font-size: 2.5rem; color: var(--color-danger);"></i>
+        <div>
+            <h4 style="color: var(--text-primary); margin: 0 0 8px 0;">Atenção</h4>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0; line-height: 1.5;">
+                Ao solicitar o direito ao esquecimento, a sua conta será desativada e os seus dados pessoais serão anonimizados ou eliminados definitivamente, exceto aqueles que a lei exige que sejam mantidos para fins de auditoria.
+            </p>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                <input type="checkbox" name="confirmacao_leitura" required style="margin-top: 4px; width: 18px; height: 18px; accent-color: var(--color-danger);">
+                <span style="color: var(--text-primary); font-size: 0.9rem; line-height: 1.5;">Compreendo que esta ação não pode ser desfeita e desejo prosseguir com a solicitação de eliminação da minha conta.</span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 16px;">
+            <button type="submit" class="btn-primary" style="padding: 12px 24px; border-radius: 8px; border: none; background: var(--color-danger); color: white; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                Confirmar Solicitação
+            </button>
+            <a href="javascript:history.back()" style="padding: 12px 24px; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-primary); text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

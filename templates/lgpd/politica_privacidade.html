@@ -1,2 +1,71 @@
 {# Funcao: exibicao da politica de privacidade vigente. #}
 {# Responsável: Pacheco, Kenny. #}
+
+{# Funcao: exibicao da politica de privacidade vigente. #}
+{# Responsável: Pacheco, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Política de Privacidade | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: 24px; display: flex; align-items: center; gap: 16px;">
+        <a href="javascript:history.back()" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface);">
+            <i class="ph ph-arrow-left" style="font-size: 1.25rem;"></i>
+        </a>
+        <div>
+            <h2 style="color: var(--text-primary); margin: 0;">Política de Privacidade</h2>
+            <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Conheça as nossas diretrizes de proteção e transparência de dados.</p>
+        </div>
+    </div>
+
+    <div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); padding: 32px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; color: var(--color-primary);">
+            <i class="ph ph-lock-key" style="font-size: 1.75rem;"></i>
+            <h4 style="color: var(--text-primary); margin: 0;">Compromisso RegiWay com a LGPD</h4>
+        </div>
+
+        <div style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; display: flex; flex-direction: column; gap: 20px;">
+            <p>
+                A nossa Política de Privacidade visa esclarecer de forma simples, transparente e objetiva como as informações dos utilizadores e motoristas da plataforma são tratadas, em total conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).
+            </p>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <h5 style="color: var(--text-primary); margin: 0 0 8px 0; font-size: 1.05rem;">1. Quais dados coletamos?</h5>
+                <p style="margin: 0;">
+                    Coletamos dados de identificação do perfil (Nome, E-mail corporativo) e dados técnicos de navegação (endereço IP, registros de data/hora de acessos) unicamente para auditoria de segurança de frota e controle de acessos do painel de administração.
+                </p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <h5 style="color: var(--text-primary); margin: 0 0 8px 0; font-size: 1.05rem;">2. Finalidade do Tratamento</h5>
+                <p style="margin: 0;">
+                    O tratamento de dados dentro do ecossistema RegiWay Frotas ocorre sob a base legal de execução de contrato e legítimo interesse, garantindo o gerenciamento operacional de sinistros, segurança dos ativos da empresa e controle de frotas ativas.
+                </p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <h5 style="color: var(--text-primary); margin: 0 0 8px 0; font-size: 1.05rem;">3. Segurança da Informação</h5>
+                <p style="margin: 0;">
+                    Adotamos rígidas medidas de segurança, incluindo autenticação multifator (2FA) e criptografia de credenciais, impedindo o acesso não autorizado, alteração indevida ou vazamento das informações cadastradas na base corporativa.
+                </p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <h5 style="color: var(--text-primary); margin: 0 0 8px 0; font-size: 1.05rem;">4. Direitos dos Titulares</h5>
+                <p style="margin: 0;">
+                    Conforme o Art. 18 da LGPD, você possui total direito de consultar suas informações na aba "Os Meus Dados", solicitar a portabilidade das informações coletadas em arquivo estruturado (CSV) ou requerer o direito ao esquecimento diretamente pelo painel.
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+            <a href="javascript:history.back()" style="padding: 12px 24px; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-primary); text-decoration: none; font-weight: 500;">
+                Voltar ao Painel
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

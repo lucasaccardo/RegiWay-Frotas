@@ -2,7 +2,7 @@
 {% if messages %}
 <div class="messages-container">
     {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" id="alert-{{ forloop.counter }}">
             {% if message.tags == 'success' %}
                 <i class="ph ph-check-circle" style="font-size: 1.5rem;"></i>
             {% elif message.tags == 'error' or message.tags == 'danger' %}
@@ -13,13 +13,24 @@
                 <i class="ph ph-info" style="font-size: 1.5rem;"></i>
             {% endif %}
             
-            <span style="flex: 1;">{{ message }}</span>
+            <span class="alert-content">{{ message }}</span>
             
-            <!-- Botão opcional para fechar o alerta via JS futuramente -->
-            <button type="button" class="btn-close" style="background: transparent; border: none; cursor: pointer; color: inherit; padding: 4px;" onclick="this.parentElement.style.display='none';">
+            <button type="button" class="btn-close-alert" onclick="closeAlert('alert-{{ forloop.counter }}')">
                 <i class="ph ph-x"></i>
             </button>
         </div>
     {% endfor %}
 </div>
+
+<script>
+    function closeAlert(alertId) {
+        const alertElement = document.getElementById(alertId);
+        if (alertElement) {
+            alertElement.classList.add('fade-out');
+            setTimeout(() => {
+                alertElement.style.display = 'none';
+            }, 400);
+        }
+    }
+</script>
 {% endif %}

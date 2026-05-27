@@ -1,2 +1,62 @@
 {# Funcao: listagem e filtros de sinistros. #}
 {# Responsável: Lucas sureira, Kenny. #}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sinistros | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h2 style="color: var(--text-primary); margin: 0;">Gestão de Sinistros</h2>
+        <p style="color: var(--text-secondary); margin: 4px 0 0 0;">Acompanhe e gerencie as ocorrências da frota.</p>
+    </div>
+    <a href="{% url 'sinistros:create' %}" class="btn-primary" style="padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; display: flex; align-items: center; gap: 8px; background-color: var(--color-danger);">
+        <i class="ph ph-warning-circle"></i> Registrar Ocorrência
+    </a>
+</div>
+
+<div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden;">
+    <div style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+        <h4 style="color: var(--text-primary); margin: 0;">Ocorrências Recentes</h4>
+        <div style="position: relative;">
+            <i class="ph ph-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+            <input type="text" placeholder="Buscar por placa ou protocolo..." style="padding: 8px 16px 8px 36px; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: white; min-width: 280px;">
+        </div>
+    </div>
+    
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="background: rgba(0,0,0,0.2);">
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Data / Hora</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Veículo (Placa)</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Tipo de Sinistro</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color);">Status</th>
+                <th style="padding: 16px 20px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border-color); text-align: right;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if sinistros %}
+                {% for sinistro in sinistros %}
+                <tr>
+                    <td style="padding: 16px 20px; color: var(--text-primary); border-bottom: 1px solid var(--border-color);">{{ sinistro.data_hora|date:"d/m/Y H:i" }}</td>
+                    <td style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); font-weight: 500;">{{ sinistro.veiculo.placa }}</td>
+                    <td style="padding: 16px 20px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">{{ sinistro.tipo }}</td>
+                    <td style="padding: 16px 20px; border-bottom: 1px solid var(--border-color);">
+                        <span style="background: rgba(239, 68, 68, 0.1); color: var(--color-danger); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">{{ sinistro.status }}</span>
+                    </td>
+                    <td style="padding: 16px 20px; border-bottom: 1px solid var(--border-color); text-align: right;">
+                        <button title="Ver Detalhes" style="background: transparent; border: none; color: var(--color-primary); cursor: pointer; padding: 4px;"><i class="ph ph-eye" style="font-size: 1.2rem;"></i></button>
+                        <a href="#" title="Editar" style="background: transparent; border: none; color: var(--color-warning); cursor: pointer; padding: 4px;"><i class="ph ph-pencil-simple" style="font-size: 1.2rem;"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5" style="padding: 32px; text-align: center; color: var(--text-secondary);">Nenhuma ocorrência registrada ainda.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,2 +1,42 @@
 {# Funcao: tela de aceite obrigatorio dos termos e politica de privacidade. #}
 {# Responsável: Pacheco, Kenny. #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Termos de Uso e Privacidade | RegiWay Frotas{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <i class="ph ph-shield-check" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 16px;"></i>
+        <h2 style="color: var(--text-primary); margin: 0;">Atualização dos Termos de Uso</h2>
+        <p style="color: var(--text-secondary); margin: 8px 0 0 0;">Para continuar a utilizar o sistema, por favor reveja e aceite os nossos termos.</p>
+    </div>
+
+    <div style="background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-color); padding: 32px; margin-bottom: 24px;">
+        <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; height: 300px; overflow-y: auto; margin-bottom: 24px;">
+            <h4 style="color: var(--text-primary); margin-top: 0;">1. Recolha de Dados</h4>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">
+                O sistema RegiWay Frotas recolhe informações estritamente necessárias para a gestão operacional, incluindo endereços de IP e horários de acesso para fins de auditoria de segurança...
+            </p>
+            <h4 style="color: var(--text-primary); margin-top: 24px;">2. Tratamento e Partilha</h4>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">
+                Os dados inseridos não são partilhados com entidades externas, exceto em casos de exigência legal ou para processamento junto das seguradoras parceiras...
+            </p>
+            </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; margin-bottom: 24px;">
+                <input type="checkbox" name="aceito" required style="margin-top: 4px; width: 18px; height: 18px; accent-color: var(--color-primary);">
+                <span style="color: var(--text-primary); font-size: 0.95rem; line-height: 1.5;">Li e aceito os Termos de Uso e a Política de Privacidade atualizados.</span>
+            </label>
+
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 16px; border-radius: 8px; border: none; background: var(--color-primary); color: white; cursor: pointer; font-weight: 600; font-size: 1rem;">
+                Concordar e acessar o Sistema
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
