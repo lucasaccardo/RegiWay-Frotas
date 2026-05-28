@@ -54,4 +54,4 @@ class VeiculoAdmin(admin.ModelAdmin):
         if not veiculo.criado_por_id:
             veiculo.criado_por = request.user
 
-        super().save_model(request, veiculo, form, change)a
+        super().save_model(request, veiculo, form, change)
