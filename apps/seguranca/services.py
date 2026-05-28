@@ -4,11 +4,10 @@
 import requests
 from django.conf import settings
 
+from apps.accounts.forms import CaptchaAuthenticationForm, LoginPassoUmForm
+
 
 def validar_recaptcha_manual(token, remoteip=None):
-    """
-    Fallback manual. Só usa isso se o django-recaptcha ficar ruim no teu projeto.
-    """
     if not token:
         return False, ["captcha-ausente"]
 
@@ -20,14 +19,18 @@ def validar_recaptcha_manual(token, remoteip=None):
     if remoteip:
         payload["remoteip"] = remoteip
 
-    resposta = requests.post(
-        "https://www.google.com/recaptcha/api/siteverify",
-        data=payload,
-        timeout=5,
-    )
-    dados = resposta.json()
+    try:
+        resposta = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data=payload,
+            timeout=5,
+        )
+        dados = resposta.json()
+
+    except requests.RequestException:
+        return False, ["erro-conexao-recaptcha"]
 
     ok = dados.get("success", False)
     erros = dados.get("error-codes", [])
 
-    return Ok, tem algo de errado aqui
+    return ok, erros
