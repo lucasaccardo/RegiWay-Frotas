@@ -1,19 +1,34 @@
-# Funcao: rotas de login, logout, recuperacao de senha, perfil e 2FA.
+# Funcao: rotas de login, logout e recuperacao de senha.
 # Responsável: Kenzo.
 
+from django.contrib.auth import views as auth_views
 from django.urls import path
-from two_factor.views import BackupTokensView, DisableView, ProfileView, QRGeneratorView, SetupCompleteView
 
-from .views import LoginComCaptchaView, Setup2FAView
+from .views import login_view, logout_view
 
-app_name = "two_factor"
+app_name = 'accounts'
 
 urlpatterns = [
-    path("account/login/", LoginComCaptchaView.as_view(), name="login"),
-    path("account/two_factor/setup/", Setup2FAView.as_view(), name="setup"),
-    path("account/two_factor/qrcode/", QRGeneratorView.as_view(), name="qr"),
-    path("account/two_factor/setup/complete/", SetupCompleteView.as_view(), name="setup_complete"),
-    path("account/two_factor/backup/tokens/", BackupTokensView.as_view(), name="backup_tokens"),
-    path("account/two_factor/", ProfileView.as_view(), name="profile"),
-    path("account/two_factor/disable/", DisableView.as_view(), name="disable"),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path(
+        'senha/resetar/',
+        auth_views.PasswordResetView.as_view(template_name='accounts/password_reset.html'),
+        name='password_reset',
+    ),
+    path(
+        'senha/resetar/enviado/',
+        auth_views.PasswordResetDoneView.as_view(template_name='accounts/password_reset_done.html'),
+        name='password_reset_done',
+    ),
+    path(
+        'senha/resetar/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(template_name='accounts/password_reset_confirm.html'),
+        name='password_reset_confirm',
+    ),
+    path(
+        'senha/resetar/concluido/',
+        auth_views.PasswordResetCompleteView.as_view(),
+        name='password_reset_complete',
+    ),
 ]

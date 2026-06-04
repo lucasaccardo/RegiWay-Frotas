@@ -1,2 +1,59 @@
-{# Funcao: tela principal do dashboard com indicadores e alertas. #}
-{# Responsável: Matheus Deu pro térian, Kenny. #}
+{# Funcao: tela principal do dashboard com indicadores e alertas operacionais. #}
+{# Responsável: Matheus Deleutério, Kenny. #}
+
+{% extends 'base.html' %}
+
+{% block title %}Dashboard — RegiWay Frotas{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+
+{% block content %}
+<h2 class="mb-1">{{ titulo_pagina }}</h2>
+<p class="text-muted mb-4">{{ subtitulo_pagina }}</p>
+
+<div class="row g-3 mb-4">
+  {% for card in indicadores %}
+  <div class="col-md-3">
+    <div class="card shadow-sm {{ card.classe }}">
+      <div class="card-body">
+        <p class="text-muted mb-1 small">{{ card.titulo }}</p>
+        <p class="stat-value mb-0">{{ card.valor }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if alertas %}
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-warning-subtle fw-semibold">&#9888;&#65039; Alertas Operacionais</div>
+  <ul class="list-group list-group-flush">
+    {% for alerta in alertas %}
+    <li class="list-group-item">{{ alerta }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title">&#128663; Acesso Rápido — Frotas</h5>
+        <p class="card-text text-muted">Gerencie os veículos da frota e consulte o cadastro.</p>
+        <a href="{% url 'frotas:veiculos_list' %}" class="btn btn-primary btn-sm">Ver Veículos</a>
+        <a href="{% url 'frotas:veiculo_novo' %}" class="btn btn-outline-primary btn-sm ms-2">Novo Veículo</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title">&#9888;&#65039; Acesso Rápido — Sinistros</h5>
+        <p class="card-text text-muted">Registre e acompanhe sinistros e avarias da frota.</p>
+        <a href="{% url 'sinistros:lista_sinistros' %}" class="btn btn-warning btn-sm">Ver Sinistros</a>
+        <a href="{% url 'sinistros:novo_sinistro' %}" class="btn btn-outline-warning btn-sm ms-2">Novo Sinistro</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

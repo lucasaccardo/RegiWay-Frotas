@@ -12,10 +12,10 @@ def home_redirect(request):
     """
     if request.user.is_authenticated:
         # Redireciona para o app de dashboard (área do Matheus)
-        return redirect('dashboard:home')
+        return redirect('dashboard:index')
     else:
         # Redireciona para a tela de login (área do Kenzo)
-        return redirect('login')
+        return redirect('accounts:login')
 
 
 @login_required

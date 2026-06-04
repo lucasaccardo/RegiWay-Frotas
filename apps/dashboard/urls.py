@@ -1,12 +1,12 @@
 # Funcao: rotas do painel principal e telas gerenciais.
-# Responsável: Matheus Deu pro térian.
+# Responsável: Matheus Deleutério.
 
 from django.urls import path
 
 from . import views
 
-app_name = "dashboard"
+app_name = 'dashboard'
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path('', views.index, name='index'),
 ]

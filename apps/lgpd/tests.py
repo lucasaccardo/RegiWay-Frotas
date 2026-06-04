@@ -111,14 +111,14 @@ class AceiteTermosViewTest(TestCase):
         self.client.login(username='novo', password='senha123')
         criar_consentimento(self.user, self.termo)
         response = self.client.get(self.url)
-        self.assertRedirects(response, '/')
+        self.assertRedirects(response, '/', fetch_redirect_response=False)
 
     def test_sem_termo_vigente_redireciona(self):
         self.termo.vigente = False
         self.termo.save()
         self.client.login(username='novo', password='senha123')
         response = self.client.get(self.url)
-        self.assertRedirects(response, '/')
+        self.assertRedirects(response, '/', fetch_redirect_response=False)
 
 
 class MeusDadosViewTest(TestCase):

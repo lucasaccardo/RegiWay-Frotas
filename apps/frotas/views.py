@@ -1,45 +1,70 @@
-# Funcao: views de cadastro, listagem, detalhe e edicao da frota.
+# Funcao: views de cadastro, listagem e edicao de veiculos.
 # Responsável: Kenzo.
-# apps/frotas/views.py
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-from frotas.forms import VeiculoForm
-from frotas.models import Veiculo
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+
+from apps.auditoria.services import registrar_evento
+
+from .forms import VeiculoForm
+from .models import Veiculo
 
 
-class VeiculoUniquenessTests(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="joao",
-            password="senha123",
+@login_required
+def veiculos_list(request):
+    q = request.GET.get('q', '').strip()
+    veiculos = Veiculo.objects.all()
+    if q:
+        # filtra por placa, marca ou modelo
+        veiculos = (
+            veiculos.filter(placa__icontains=q)
+            | veiculos.filter(marca__icontains=q)
+            | veiculos.filter(modelo__icontains=q)
         )
-        Veiculo.objects.create(
-            placa="ABC1234",
-            renavam="12345678901",
-            chassi="9BWZZZ377VT004251",
-            marca="Volkswagen",
-            modelo="Gol",
-            ano=2024,
-            criado_por=self.user,
-        )
+    return render(request, 'frotas/veiculos_list.html', {'veiculos': veiculos, 'q': q})
 
-    def test_form_mostra_erro_quando_placa_ja_existe(self):
-        form = VeiculoForm(
-            data={
-                "placa": "ABC-1234",
-                "renavam": "10987654321",
-                "chassi": "9BWZZZ377VT004252",
-                "marca": "Fiat",
-                "modelo": "Uno",
-                "ano": 2024,
-                "cor": "Branco",
-                "observacao": "",
-            }
-        )
 
-        self.assertFalse(form.is_valid())
-        self.assertFormError(
-            form,
-            "placa",
-            "Já existe um veículo cadastrado com essa placa.",
-        )
+@login_required
+def veiculo_novo(request):
+    if request.method == 'POST':
+        form = VeiculoForm(request.POST, request.FILES)
+        if form.is_valid():
+            veiculo = form.save(commit=False)
+            veiculo.criado_por = request.user
+            veiculo.save()
+            registrar_evento(
+                tipo='outro',
+                descricao=f'Veículo {veiculo.placa} cadastrado.',
+                usuario=request.user,
+                request=request,
+                objeto=veiculo,
+            )
+            messages.success(request, 'Veículo cadastrado com sucesso!')
+            return redirect('frotas:veiculos_list')
+        messages.error(request, 'Corrija os erros abaixo.')
+    else:
+        form = VeiculoForm()
+    return render(request, 'frotas/veiculos_form.html', {'form': form, 'titulozinho': 'Novo Veículo'})
+
+
+@login_required
+def veiculo_editar(request, pk):
+    veiculo = get_object_or_404(Veiculo, pk=pk)
+    if request.method == 'POST':
+        form = VeiculoForm(request.POST, request.FILES, instance=veiculo)
+        if form.is_valid():
+            form.save()
+            registrar_evento(
+                tipo='alteracao',
+                descricao=f'Veículo {veiculo.placa} atualizado.',
+                usuario=request.user,
+                request=request,
+                objeto=veiculo,
+            )
+            messages.success(request, 'Veículo atualizado com sucesso!')
+            return redirect('frotas:veiculos_list')
+        messages.error(request, 'Corrija os erros abaixo.')
+    else:
+        form = VeiculoForm(instance=veiculo)
+    return render(request, 'frotas/veiculos_form.html', {'form': form, 'titulozinho': 'Editar Veículo'})

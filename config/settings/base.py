@@ -140,3 +140,8 @@ PASSWORD_RESET_TIMEOUT = 3600
 # Django Axes previsto para protecao contra forca bruta.
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1
+
+# URLs de autenticacao
+LOGIN_URL = '/contas/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/contas/login/'

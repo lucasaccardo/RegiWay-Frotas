@@ -87,6 +87,6 @@ def confirmar_exclusao(request):
             status='em_andamento',
         )
         excluir_conta_usuario(request)
-        return redirect('login')
+        return redirect('accounts:login')
 
     return render(request, 'lgpd/solicitar_exclusao.html')

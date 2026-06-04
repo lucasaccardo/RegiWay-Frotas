@@ -2,10 +2,3 @@
 # Responsável: João Pedro.
 
 Django>=6.0,<6.1
-
-# Dependencias previstas para as proximas etapas:
-# django-axes
-# django-two-factor-auth
-# django-otp
-# psycopg[binary]
-# django-environ

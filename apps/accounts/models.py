@@ -1,7 +1,5 @@
-# Funcao: modelos de usuario, perfil de usuario e aceite de termos.
+# Funcao: modelos de perfil e aceite de termos vinculados ao usuario padrao do Django.
 # Responsável: Kenzo, João Pedro.
 #
-# Modelos previstos:
-# - Usuario
-# - PerfilUsuario
-# - TermoAceiteUsuario
+# O sistema usa o modelo de Usuario padrao do Django (AUTH_USER_MODEL).
+# Extensoes como perfil de cargo sao feitas via OneToOne quando necessario.
