@@ -1,0 +1,24 @@
+{# Funcao: detalhe operacional de um sinistro. #}
+{# Responsável: Lucas sureira, Kenny. #}
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Detalhes do Sinistro: {{ sinistro.placa }}</h2>
+    <div class="card mt-3">
+        <div class="card-body">
+            <p><strong>Cliente:</strong> {{ sinistro.cliente }}</p>
+            <p><strong>Status Atual:</strong> <span class="badge bg-primary">{{ sinistro.status }}</span></p>
+            <p><strong>Data da Ocorrência:</strong> {{ sinistro.data_ocorrencia }}</p>
+            <p><strong>Descrição:</strong> {{ sinistro.descricao }}</p>
+            
+            {% if sinistro.documento_anexo %}
+                <a href="{{ sinistro.documento_anexo.url }}" target="_blank" class="btn btn-info mt-3">Ver Anexo</a>
+            {% endif %}
+            
+            <a href="{% url 'sinistros:historico_sinistro' sinistro.pk %}" class="btn btn-outline-dark mt-3">Ver Histórico</a>
+            <a href="{% url 'sinistros:lista_sinistros' %}" class="btn btn-secondary mt-3">Voltar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

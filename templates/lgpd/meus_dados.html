@@ -1,0 +1,51 @@
+{# Funcao: area para consulta de dados pessoais do titular. #}
+{# Responsável: Lucas sureira, Pacheco, Kenny. #}
+
+# Lucas Sureira
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Painel de Privacidade e Dados (LGPD)</h2>
+    <p>Gerencie suas informações pessoais ou exerça seus direitos como titular dos dados.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Meus Dados Cadastrais</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Portabilidade de Dados</h5>
+                    <p>Faça o download de todos os seus dados armazenados em nossos servidores.</p>
+                    <a href="{% url 'lgpd:baixar_dados' %}" class="btn btn-info">Baixar Meus Dados (CSV)</a>
+                </div>
+            </div>
+
+            <div class="card border-danger">
+                <div class="card-body text-danger">
+                    <h5 class="card-title">Direito ao Esquecimento</h5>
+                    <p>A exclusão da conta é permanente e irreversível.</p>
+                    <a href="{% url 'lgpd:confirmar_exclusao' %}" class="btn btn-danger">Solicitar Exclusão da Conta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

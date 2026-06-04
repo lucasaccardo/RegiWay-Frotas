@@ -1,0 +1,43 @@
+{# Funcao: listagem e filtros de sinistros. #}
+{# Responsável: Lucas sureira, Kenny. #}
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Gestão de Sinistros</h2>
+    
+    <a href="{% url 'sinistros:novo_sinistro' %}" class="btn btn-primary mb-3">Abrir Novo Chamado</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sinistro in sinistros %}
+            <tr>
+                <td>{{ sinistro.placa }}</td>
+                <td>{{ sinistro.cliente }}</td>
+                <td>{{ sinistro.data_ocorrencia }}</td>
+                <td>{{ sinistro.status }}</td>
+                <td>
+                    <a href="{% url 'sinistros:detail_sinistro' sinistro.pk %}" class="btn btn-sm btn-outline-primary">Ver</a>
+                    <a href="{% url 'sinistros:historico_sinistro' sinistro.pk %}" class="btn btn-sm btn-outline-secondary">Histórico</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Nenhum sinistro registrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

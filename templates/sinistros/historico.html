@@ -1,0 +1,27 @@
+{# Funcao: exibicao do historico imutavel do sinistro. #}
+{# Responsável: Lucas sureira, Kenny. #}
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Histórico de Movimentação</h2>
+    <p>Acompanhamento de SLA e trocas de status do veículo.</p>
+    
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Data da Alteração</th>
+                <th>Status Anterior</th>
+                <th>Novo Status</th>
+                <th>Responsável</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4" class="text-center text-muted">Aguardando geração do histórico imutável...</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{% url 'sinistros:lista_sinistros' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

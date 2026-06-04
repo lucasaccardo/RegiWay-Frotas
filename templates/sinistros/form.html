@@ -1,0 +1,19 @@
+{# Funcao: formulario de criacao e edicao de sinistro. #}
+{# Responsável: Lucas sureira, Kenny. #}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ titulo }}</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit" class="btn btn-success">Salvar Sinistro</button>
+        <a href="{% url 'sinistros:lista_sinistros' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

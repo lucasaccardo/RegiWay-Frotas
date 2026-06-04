@@ -1,0 +1,4 @@
+# Funcao: lista de dependencias Python do projeto.
+# Responsável: João Pedro.
+
+Django>=6.0,<6.1

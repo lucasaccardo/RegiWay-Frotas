@@ -1,0 +1,16 @@
+# Funcao: arquivos locais e gerados que nao devem ser versionados.
+# Responsável: João Pedro.
+
+.env
+__pycache__/
+*.py[cod]
+db.sqlite3
+.venv/
+venv/
+
+media/*
+!media/**/
+!media/**/README.md
+
+logs/*
+!logs/README.md
